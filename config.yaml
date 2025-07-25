@@ -11,7 +11,9 @@ game:
 database:
   host: localhost
   port: 8086
-  db_name: bike_game
+  username: pedalpower
+  password: pedalpower
+  db_name: pedalpower
   measurement: energy
 
 logging:
