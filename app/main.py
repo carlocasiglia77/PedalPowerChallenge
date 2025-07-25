@@ -40,17 +40,15 @@ def main():
         player2_wh = random.uniform(0.0, 0.2)
         player3_wh = random.uniform(0.0, 0.2)
         player4_wh = random.uniform(0.0, 0.2)
-
         player_whs = {
             "player1": player1_wh,
             "player2": player2_wh,
             "player3": player3_wh,
             "player4": player4_wh,
         }
-
         total_wh = sum(player_whs.values())
 
-        db.write_state(current_timer, player_whs, total_wh)
+        db.write_state(current_timer, player1_wh, player2_wh, player3_wh, player4_wh, total_wh)
 
         time.sleep(refresh_rate)
 
