@@ -1,42 +1,22 @@
-# db.py
-from influxdb import InfluxDBClient
-
+from influxdb_client import InfluxDBClient, Point
 
 class DBWriter:
     def __init__(self, config):
         self.client = InfluxDBClient(
-            host=config['host'],
-            port=config['port'],
-            username=config['username'],
-            password=config['password'])
-        self.db_name = config['db_name']
-        self.client.switch_database(self.db_name)
-        self.measurement = config['measurement']
+            url=config["url"],
+            token=config["token"],
+            org=config["org"]
+        )
+        self.bucket = config["bucket"]
+        self.write_api = self.client.write_api()
 
-    def write_energy(self, player_id, energy_wh):
-        point = {
-            "measurement": self.measurement,
-            "tags": {"player": player_id},
-            "fields": {"energy": energy_wh}
-        }
-        self.client.write_points([point])
+    def write_state(self, current_timer, p1, p2, p3, p4, tot):
+        point = Point("game_status") \
+            .field("current_timer", current_timer) \
+            .field("player1_tot_wh", p1) \
+            .field("player2_tot_wh", p2) \
+            .field("player3_tot_wh", p3) \
+            .field("player4_tot_wh", p4) \
+            .field("tot_wh", tot)
 
-    def write_state(self,
-                    current_timer,
-                    player1_tot_wh,
-                    player2_tot_wh,
-                    player3_tot_wh,
-                    player4_tot_wh,
-                    tot_wh):
-        point = {
-            "measurement": "game_status",
-            "fields": {
-                "current_timer": current_timer,
-                "player1_tot_wh": player1_tot_wh,
-                "player2_tot_wh": player2_tot_wh,
-                "player3_tot_wh": player3_tot_wh,
-                "player4_tot_wh": player4_tot_wh,
-                "tot_wh": tot_wh
-            }
-        }
-        self.client.write_points([point])
+        self.write_api.write(bucket=self.bucket, record=point)

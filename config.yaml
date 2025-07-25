@@ -9,12 +9,10 @@ game:
   cooldown: 10                        # secondi prima di cancellare il gioco
 
 database:
-  host: localhost
-  port: 8086
-  username: pedalpower
-  password: pedalpower
-  db_name: pedalpower
-  measurement: energy
+  url: http://localhost:8086
+  token: fcLoscx68fhFp_Bd3LT3Qac24j9AlGIK9SbUHpoyGH0Fbcwi5Ccyt0QJrxhAEVV11eWq-n4Y9VqeAOjIBZgm_A==
+  org: PedalPower
+  bucket: pedalpower
 
 logging:
   level: INFO

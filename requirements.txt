@@ -1,5 +1,5 @@
 PyYAML~=6.0.2
-influxdb
+influxdb_client
 adafruit-circuitpython-ina260
 adafruit-blinka
 RPi.GPIO
