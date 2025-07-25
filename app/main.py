@@ -1,5 +1,6 @@
 import time
 import random
+from pathlib import Path
 
 from ina260 import INA260Sensor
 from player import Player
@@ -11,7 +12,8 @@ import yaml
 
 
 def load_config():
-    with open("../config.yaml", "r") as f:
+    config_path = Path(__file__).resolve().parent.parent / "config.yaml"
+    with open(config_path, "r") as f:
         return yaml.safe_load(f)
 
 
