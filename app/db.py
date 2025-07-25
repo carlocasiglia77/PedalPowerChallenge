@@ -16,3 +16,20 @@ class DBWriter:
             "fields": {"energy": energy_wh}
         }
         self.client.write_points([point])
+
+    def write_state(self,
+                    current_timer,
+                    player1_tot_wh,
+                    player2_tot_wh,
+                    player3_tot_wh,
+                    player4_tot_wh,
+                    tot_wh):
+        point = {
+            "current_timer": current_timer,
+            "player1_tot_wh": player1_tot_wh,
+            "player2_tot_wh": player2_tot_wh,
+            "player3_tot_wh": player3_tot_wh,
+            "player4_tot_wh": player4_tot_wh,
+            "tot_wh": tot_wh
+        }
+        self.client.write_points([point])

@@ -2,9 +2,11 @@ sensors:
   addresses: [0x40, 0x41, 0x44, 0x45]
 
 game:
+  refresh_rate: 0.5                   # frequenza di refresh del gioco
   duration: 60                        # durata del gioco
   voltage_activation_threshold: 3.0   # volt di attivazione partita
   time_activation_threshold: 5        # secondi di attivazione partita
+  cooldown: 10                        # secondi prima di cancellare il gioco
 
 database:
   host: localhost
