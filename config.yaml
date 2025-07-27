@@ -10,7 +10,7 @@ game:
 
 database:
   url: http://localhost:8086
-  token: fcLoscx68fhFp_Bd3LT3Qac24j9AlGIK9SbUHpoyGH0Fbcwi5Ccyt0QJrxhAEVV11eWq-n4Y9VqeAOjIBZgm_A==
+  token: jAp7m-pgPE_j9Nxf8ueEAbCRRTuPpC7GNvI6O39FsQtBMT0Njvpoq5pG3iTiiIWTrWN7nMCOw48aABYEOj7w3g==
   org: PedalPower
   bucket: pedalpower
 
