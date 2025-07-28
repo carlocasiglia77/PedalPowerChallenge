@@ -43,6 +43,11 @@ class GameController:
         self.activation_start_time = None
         self.game_start_time = None
 
+        self.elapsed = None
+        self.remaining = None
+
+        self.no_power_timer = 0
+
         logging.info("GameController initialized")
 
     # TODO Funzione che calcola il timer corrente
@@ -51,7 +56,9 @@ class GameController:
     def _reset(self):
         self.active = False
         self.activation_start_time = None
-        self.game_start_time = False
+        self.game_start_time = None
+        self.elapsed = 0
+        self.remaining = 0
         for p in self.players:
             p.energy_accum = 0
 
@@ -59,6 +66,7 @@ class GameController:
         logging.info("Game started!")
         self.active = True
         self.game_start_time = time.time()
+        self.remaining = self.game_duration
 
     def _end_game(self):
         logging.info("Game ended!")
@@ -66,7 +74,7 @@ class GameController:
         self._reset()
         # self.db_writer.write_energy(player.id, player.energy_accum)
 
-    def _write_state_to_db(self, elapsed, delta_time_sec):
+    def _write_state_to_db(self):
         energies = []
         powers = []
         for p in self.players:
@@ -76,7 +84,7 @@ class GameController:
         total_energy = sum(energies)
 
         self.db_writer.write_game_state(
-            elapsed,
+            self.remaining,
             energies,
             powers,
             total_energy
@@ -85,7 +93,6 @@ class GameController:
     def run(self):
 
         while True:
-
             now = time.time()
 
             # Sezione di gioco inattivo, verifichiamo se il gioco deve iniziare
@@ -103,12 +110,22 @@ class GameController:
 
             # Loop di gioco
             else:
-                # TODO trasformare questa roba inutile in una gestione del timer decente
-                elapsed = now - self.game_start_time
-                if elapsed >= self.game_duration:
+                self.elapsed = now - self.game_start_time
+                self.remaining = max(0, self.game_duration - int(self.elapsed))
+                if self.elapsed >= self.game_duration:
                     self._end_game()
                 else:
                     for player in self.players:
-                        player.update(delta_time_sec=self.refresh_rate) # TODO delta_time DINAMICO
+                        player.update(delta_time_sec=self.refresh_rate)
+
+            # TODO è il posto giusto? è giusto? pensa meglio
+            if all(p.sensor.read_voltage() < self.voltage_activation_threshold for p in self.players):
+                self.no_power_timer += self.refresh_rate
+                if self.no_power_timer >= self.config['game']['no_power_timeout']:
+                    self._end_game()
+            else:
+                self.no_power_timer = 0
+
+            self._write_state_to_db()
 
             time.sleep(self.refresh_rate)

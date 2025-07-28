@@ -18,6 +18,21 @@ def load_config():
 
 
 def main():
+
+    # TODO Capire se tutti e quattro gli INA sono sempre collegati alla Raspberry
+
+    config = load_config()
+    setup_logger(config.get("logging", {}).get("level", "INFO"))
+
+    db = DBWriter(config['database'])
+    sensors = [INA260Sensor(addr) for addr in config['sensors']['addresses']]
+    players = [Player(sensor, i) for i, sensor in enumerate(sensors)]
+    controller = GameController(players, db, config)
+
+    controller.run()
+
+
+def main_demo():
     config = load_config()
     setup_logger(config.get("logging", {}).get("level", "INFO"))
     db = DBWriter(config['database'])
@@ -48,22 +63,9 @@ def main():
         }
         total_wh = sum(player_whs.values())
 
-        db.write_state(current_timer, player1_wh, player2_wh, player3_wh, player4_wh, total_wh)
+        db.write_game_state(current_timer, player1_wh, player2_wh, player3_wh, player4_wh, total_wh)
 
         time.sleep(refresh_rate)
-
-
-"""
-    
-
-    # TODO Capire se tutti e quattro gli INA sono sempre collegati alla Raspberry
-    sensors = [INA260Sensor(addr) for addr in config['sensors']['addresses']]
-    players = [Player(sensor, i) for i, sensor in enumerate(sensors)]
-    db = DBWriter(config['database'])
-    controller = GameController(players, db, config)
-
-    controller.run()
-"""
 
 
 if __name__ == "__main__":

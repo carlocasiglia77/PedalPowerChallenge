@@ -1,5 +1,6 @@
 from influxdb_client import InfluxDBClient, Point
 
+
 class DBWriter:
     def __init__(self, config):
         self.client = InfluxDBClient(
@@ -10,13 +11,26 @@ class DBWriter:
         self.bucket = config["bucket"]
         self.write_api = self.client.write_api()
 
-    def write_state(self, current_timer, p1, p2, p3, p4, tot):
+    def write_game_state(self,
+                         remaining_secs,
+                         p1_w,
+                         p2_w,
+                         p3_w,
+                         p4_w,
+                         p1_tot_wh,
+                         p2_tot_wh,
+                         p3_tot_wh,
+                         p4_tot_wh,
+                         tot_wh):
         point = Point("game_status") \
-            .field("current_timer", current_timer) \
-            .field("player1_tot_wh", p1) \
-            .field("player2_tot_wh", p2) \
-            .field("player3_tot_wh", p3) \
-            .field("player4_tot_wh", p4) \
-            .field("tot_wh", tot)
-
+            .field("remaining_secs", remaining_secs) \
+            .field("p1_w", p1_w) \
+            .field("p1_w", p2_w) \
+            .field("p1_w", p3_w) \
+            .field("p1_w", p4_w) \
+            .field("p1_tot_wh", p1_tot_wh) \
+            .field("p2_tot_wh", p2_tot_wh) \
+            .field("p3_tot_wh", p3_tot_wh) \
+            .field("p4_tot_wh", p4_tot_wh) \
+            .field("tot_wh", tot_wh)
         self.write_api.write(bucket=self.bucket, record=point)
