@@ -2,10 +2,10 @@ import time
 import random
 from pathlib import Path
 
-from ina260 import INA260Sensor
-from player import Player
-from game_controller import GameController
-from db import DBWriter
+from app.ina260 import INA260Sensor
+from app.player import Player
+from app.game_controller import GameController
+from app.db import DBWriter
 
 from utils import setup_logger
 import yaml
