@@ -64,6 +64,8 @@ class GameController:
 
         total_energy = sum(energies)
 
+        remaining = self.remaining if self.remaining is not None else 0
+
         logging.debug(f"⏱ Remaining Time: {self.remaining} sec | 🔋 Total Energy: {total_energy:.4f} Wh")
 
         self.db_writer.write_game_state(
