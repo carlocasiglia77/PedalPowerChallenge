@@ -7,7 +7,7 @@ from app.player import Player
 from app.game_controller import GameController
 from app.db import DBWriter
 
-from utils import setup_logger
+from app.utils import setup_logger
 import yaml
 
 
