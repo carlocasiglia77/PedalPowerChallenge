@@ -4,8 +4,8 @@ import random
 from app.db import DBWriter
 from app.main import load_config
 from app.utils import setup_logger
-from player import Player
-from game_controller import GameController
+from app.player import Player
+from app.game_controller import GameController
 
 
 class FakeSensor:
