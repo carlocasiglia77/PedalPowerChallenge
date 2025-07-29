@@ -85,8 +85,14 @@ class GameController:
 
         self.db_writer.write_game_state(
             self.remaining,
-            energies,
-            powers,
+            powers[0],
+            powers[1],
+            powers[2],
+            powers[3],
+            energies[0],
+            energies[1],
+            energies[2],
+            energies[3],
             total_energy
         )
 
