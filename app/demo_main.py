@@ -1,5 +1,9 @@
 import time
 import random
+
+from app.db import DBWriter
+from app.main import load_config
+from app.utils import setup_logger
 from player import Player
 from game_controller import GameController
 
@@ -28,24 +32,13 @@ class FakeDBWriter:
 
 
 def demo_main():
-    # Fake config
-    config = {
-        'game': {
-            'duration': 10,
-            'voltage_activation_threshold': 0.5,
-            'time_activation_threshold': 2,
-            'cooldown': 3,
-            'refresh_rate': 1,
-            'no_power_timeout': 3,
-        }
-    }
-
-    # Fake players
-    sensors = [FakeSensor() for _ in range(2)]
+    config = load_config()
+    setup_logger(config.get("logging", {}).get("level", "INFO"))
+    db = DBWriter(config['database'])
+    sensors = [FakeSensor() for _ in range(4)]
     players = [Player(sensor, i) for i, sensor in enumerate(sensors)]
-    db_writer = FakeDBWriter()
 
-    game = GameController(players, db_writer, config)
+    game = GameController(players, db, config)
     game.run()
 
 
