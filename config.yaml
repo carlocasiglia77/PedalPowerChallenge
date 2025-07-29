@@ -7,6 +7,7 @@ game:
   voltage_activation_threshold: 3.0   # volt di attivazione partita
   time_activation_threshold: 5        # secondi di attivazione partita
   cooldown: 10                        # secondi prima di cancellare il gioco
+  no_power_timeout: 5
 
 database:
   url: http://localhost:8086
