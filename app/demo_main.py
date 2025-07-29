@@ -14,16 +14,21 @@ class FakeSensor:
         self.power = 0
 
     def read_voltage(self):
-        # Randomly simulate pedaling
-        if random.random() < 0.2:
-            self.voltage = random.uniform(0.5, 2.5)
+        # Simulate high-voltage pedaling condition with 80% probability
+        if random.random() < 0.8:
+            self.voltage = random.uniform(10.0, 20.0)  # Between 10V and 20V
         else:
             self.voltage = 0
         return self.voltage
 
     def read_power(self):
-        # Only return power if voltage is non-zero
-        return self.voltage * random.uniform(0.5, 3)
+        # Simulate realistic high power when voltage is present
+        if self.voltage > 0:
+            self.power = random.uniform(20.0, 40.0)  # Between 20W and 40W
+        else:
+            self.power = 0
+        return self.power
+
 
 
 class FakeDBWriter:
