@@ -7,7 +7,7 @@ sleep 10
 unclutter -idle 0.1 -root &
 
 # Start the Python game in background
-cd /PedalPowerChallenge
+cd ~/PedalPowerChallenge
 source pedalpower/bin/activate
 python -m app.main
 

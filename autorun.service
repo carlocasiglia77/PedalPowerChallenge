@@ -6,8 +6,8 @@ After=network.target grafana-server.service
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/PedalPowerChallenge
-ExecStart=/home/pi/PedalPowerChallenge/start.sh
+WorkingDirectory=~/PedalPowerChallenge
+ExecStart=~/PedalPowerChallenge/start.sh
 Restart=always
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
