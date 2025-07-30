@@ -1,13 +1,16 @@
 # /etc/systemd/system/bike_game.service
 [Unit]
-Description=Bike Game Service
-After=network.target
+Description=PedalPowerChallenge Startup
+After=network.target grafana-server.service
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/bike_game/main.py
-WorkingDirectory=/home/pi/bike_game
-Restart=always
+Type=simple
 User=pi
+WorkingDirectory=/home/pi/PedalPowerChallenge
+ExecStart=/home/pi/PedalPowerChallenge/start.sh
+Restart=always
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
