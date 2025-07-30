@@ -9,7 +9,7 @@ unclutter -idle 0.1 -root &
 # Start the Python game in background
 cd ~/PedalPowerChallenge
 source pedalpower/bin/activate
-python -m app.main
+python -m app.main_demo
 
 # Open Firefox to Grafana dashboard in kiosk mode
 sleep 5  # Give the game a head start
